@@ -1,0 +1,8 @@
+
+# dbt
+target/
+dbt_packages/
+logs/
+
+# Credenciales
+profiles.yml

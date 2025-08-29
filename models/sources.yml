@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: RAW
+    schema: RAW
+    tables:
+      - name: ORDERS
+      - name: CUSTOMER
+      - name: LINEITEM
