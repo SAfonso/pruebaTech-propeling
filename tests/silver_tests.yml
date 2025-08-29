@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: customer
+    columns:
+      - name: C_CUSTKEY
+        tests:
+          - not_null
+          - unique
+      - name: C_NAME
+        tests:
+          - not_null
+      - name: C_PHONE_STD
+        tests:
+          - not_null
+
+  - name: orders
+    columns:
+      - name: O_ORDERKEY
+        tests:
+          - not_null
+          - unique
+      - name: O_CUSTKEY
+        tests:
+          - not_null
+
+  - name: lineitem
+    columns:
+      - name: L_ORDERKEY
+        tests:
+          - not_null
+      - name: L_LINENUMBER
+        tests:
+          - not_null
+          
+  - name: part
+    columns:
+      - name: P_PARTKEY
+        tests:
+          - not_null
+          - unique
+      - name: P_NAME
+        tests:
+          - not_null
+
+  - name: supplier
+    columns:
+      - name: S_SUPPKEY
+        tests:
+          - not_null
+          - unique
+      - name: S_NAME
+        tests:
+          - not_null

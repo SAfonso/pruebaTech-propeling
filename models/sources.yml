@@ -7,3 +7,5 @@ sources:
       - name: ORDERS
       - name: CUSTOMER
       - name: LINEITEM
+      - name: PART
+      - name: SUPPLIER

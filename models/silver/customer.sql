@@ -24,7 +24,7 @@ with base as (
             when C_PHONE regexp '^00([0-9]{2,4})-' then regexp_replace(C_PHONE, '^00([0-9]{2,4})-', '+\\1 ')
             when C_PHONE regexp '^([0-9]{2,4})-'   then regexp_replace(C_PHONE, '^([0-9]{2,4})-', '+\\1 ')
             else C_PHONE
-        end as C_PHONE_STD
+        end as C_PHONE_STD,
 
         C_ACCTBAL,
         upper(trim(C_MKTSEGMENT)) as C_MKTSEGMENT,
