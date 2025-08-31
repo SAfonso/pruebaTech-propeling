@@ -15,20 +15,8 @@ with base as (
 
         -- Limpiamos el campo Address
         regexp_replace(trim(C_ADDRESS), '[^a-zA-Z0-9 ]', '') as C_ADDRESS,
-
         C_NATIONKEY,
-
-        -- Normalizamos el prefijo d elos teléfonos
-        -- Normalización de teléfono con soporte 2 y 4 dígitos
-        case
-            -- Formato 00NN-XXX-XXXX
-            when regexp_like(C_PHONE, '^00([0-9]{2,4})-') then regexp_replace(C_PHONE, '^00([0-9]{2,4})-', '+\1 ')
-            -- Formato NN-XXX-XXXX
-            when regexp_like(C_PHONE, '^([0-9]{2,4})-([0-9]{3})-([0-9]{3})-([0-9]{4})$')
-                then regexp_replace(C_PHONE, '^([0-9]{2,4})-([0-9]{3})-([0-9]{3})-([0-9]{4})$', '+\1 \2-\3-\4')
-            else C_PHONE
-        end as C_PHONE_STD,
-
+        C_PHONE,
         C_ACCTBAL,
         upper(trim(C_MKTSEGMENT)) as C_MKTSEGMENT,
         trim(C_COMMENT) as C_COMMENT,
