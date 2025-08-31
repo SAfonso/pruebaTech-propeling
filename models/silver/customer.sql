@@ -21,8 +21,11 @@ with base as (
         -- Normalizamos el prefijo d elos teléfonos
         -- Normalización de teléfono con soporte 2 y 4 dígitos
         case
-            when C_PHONE regexp '^00([0-9]{2,4})-' then regexp_replace(C_PHONE, '^00([0-9]{2,4})-', '+\\1 ')
-            when C_PHONE regexp '^([0-9]{2,4})-'   then regexp_replace(C_PHONE, '^([0-9]{2,4})-', '+\\1 ')
+            -- Formato 00NN-XXX-XXXX
+            when regexp_like(C_PHONE, '^00([0-9]{2,4})-') then regexp_replace(C_PHONE, '^00([0-9]{2,4})-', '+\1 ')
+            -- Formato NN-XXX-XXXX
+            when regexp_like(C_PHONE, '^([0-9]{2,4})-([0-9]{3})-([0-9]{3})-([0-9]{4})$')
+                then regexp_replace(C_PHONE, '^([0-9]{2,4})-([0-9]{3})-([0-9]{3})-([0-9]{4})$', '+\1 \2-\3-\4')
             else C_PHONE
         end as C_PHONE_STD,
 
