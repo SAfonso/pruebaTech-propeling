@@ -12,4 +12,4 @@ select
     C_MKTSEGMENT    as MARKET_SEGMENT,
     C_COMMENT       as CUSTOMER_COMMENT,
     LOAD_TS
-from {{ ref('customer') }}
+from {{ source('SILVER','CUSTOMER') }}
