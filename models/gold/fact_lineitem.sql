@@ -29,11 +29,11 @@ with base as (
         p.P_PARTKEY,
         s.S_SUPPKEY
 
-    from {{ source('SILVER','LINEITEM') }} l
-    join {{ source('SILVER','ORDERS') }} o on l.L_ORDERKEY = o.O_ORDERKEY
-    join {{ source('SILVER','CUSTOMER') }} c on o.O_CUSTKEY  = c.C_CUSTKEY
-    join {{ source('SILVER','PART') }}     p on l.L_PARTKEY  = p.P_PARTKEY
-    join {{ source('SILVER','SUPPLIER') }} s on l.L_SUPPKEY  = s.S_SUPPKEY
+    from {{ ref('lineitem') }} l
+    join {{ ref('orders') }} o on l.L_ORDERKEY = o.O_ORDERKEY
+    join {{ ref('customer') }} c on o.O_CUSTKEY  = c.C_CUSTKEY
+    join {{ ref('part') }}     p on l.L_PARTKEY  = p.P_PARTKEY
+    join {{ ref('supplier') }} s on l.L_SUPPKEY  = s.S_SUPPKEY
 )
 
 select

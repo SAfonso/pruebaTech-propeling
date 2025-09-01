@@ -14,4 +14,4 @@ select
     P_RETAILPRICE    as RETAIL_PRICE,
     P_COMMENT        as PART_COMMENT,
     LOAD_TS
-from {{ source('SILVER','PART') }}
+from {{ ref('part') }}

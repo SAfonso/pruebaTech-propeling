@@ -11,4 +11,4 @@ select
     S_PHONE          as PHONE,
     S_COMMENT        as SUPPLIER_COMMENT,
     LOAD_TS
-from {{ source('SILVER','SUPPLIER') }}
+from {{ ref('supplier') }}
