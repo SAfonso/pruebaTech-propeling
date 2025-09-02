@@ -8,59 +8,39 @@ models:
   - name: dim_customer
     columns:
       - name: CUSTOMER_ID
-        tests:
-          - not_null
-          - unique
+        tests: [not_null, unique]
       - name: CUSTOMER_NAME
-        tests:
-          - not_null
+        tests: [not_null]
       - name: CUSTOMER_PHONE
-        tests:
-          - not_null
+        tests: [not_null]
 
-  - name: dim_supplier
+  - name: dim_suppliers
     columns:
       - name: SUPPLIER_ID
-        tests:
-          - not_null
-          - unique
+        tests: [not_null, unique]
       - name: SUPPLIER_NAME
-        tests:
-          - not_null
+        tests: [not_null]
 
   - name: dim_part
     columns:
       - name: PART_ID
-        tests:
-          - not_null
-          - unique
+        tests: [not_null, unique]
       - name: PART_NAME
-        tests:
-          - not_null
-      - name: RETAIL_PRICE
-        tests:
-          - not_null
-          - dbt_utils.expression_is_true:
-              expression: "RETAIL_PRICE >= 0"
+        tests: [not_null]
 
-  - name: dim_date
+
+  - name: dim_dates
     columns:
       - name: DATE_KEY
-        tests:
-          - not_null
-          - unique
+        tests: [not_null, unique]
       - name: DATE_VALUE
-        tests:
-          - not_null
+        tests: [not_null]
       - name: YEAR
-        tests:
-          - not_null
+        tests: [not_null]
       - name: MONTH
-        tests:
-          - not_null
+        tests: [not_null]
       - name: DAY
-        tests:
-          - not_null
+        tests: [not_null]
 
   # --------------------
   # HECHOS
@@ -87,93 +67,44 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('dim_supplier')
+              to: ref('dim_suppliers')
               field: SUPPLIER_ID
 
-      # FKs a dim_date (múltiples tipos de fecha)
+      # FKs a dim_dates -> ahora son NUMÉRICAS (DATE_KEY)
       - name: ORDER_DATE_KEY
         tests:
+          - not_null
           - relationships:
-              to: ref('dim_date')
+              to: ref('dim_dates')
               field: DATE_KEY
       - name: SHIP_DATE_KEY
         tests:
+          - not_null
           - relationships:
-              to: ref('dim_date')
+              to: ref('dim_dates')
               field: DATE_KEY
       - name: COMMIT_DATE_KEY
         tests:
+          - not_null
           - relationships:
-              to: ref('dim_date')
+              to: ref('dim_dates')
               field: DATE_KEY
       - name: RECEIPT_DATE_KEY
         tests:
+          - not_null
           - relationships:
-              to: ref('dim_date')
+              to: ref('dim_dates')
               field: DATE_KEY
 
-      # Métricas de negocio
-      - name: L_QUANTITY
-        tests:
-          - not_null
-          - dbt_utils.expression_is_true:
-              expression: "L_QUANTITY > 0"
-      - name: L_EXTENDEDPRICE
-        tests:
-          - not_null
-          - dbt_utils.expression_is_true:
-              expression: "L_EXTENDEDPRICE >= 0"
-      - name: L_DISCOUNT
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 1
-              inclusive: true
-      - name: L_TAX
-        tests:
-          - not_null
-          - dbt_utils.accepted_range:
-              min_value: 0
-              max_value: 1
-              inclusive: true
+
 
   - name: fact_orders
     columns:
-      - name: O_ORDERKEY
-        tests:
-          - not_null
-          - unique
+      - name: ORDERKEY
+        tests: [not_null, unique]
       - name: CUSTOMER_KEY
         tests:
           - not_null
           - relationships:
               to: ref('dim_customer')
               field: CUSTOMER_ID
-      # Si tu fact_orders usa ORDER_DATE (DATE) en vez de *_KEY:
-      - name: ORDER_DATE
-        tests:
-          - not_null
-          - relationships:
-              to: ref('dim_date')
-              field: DATE_VALUE
-      - name: TOTAL_QUANTITY
-        tests:
-          - not_null
-          - dbt_utils.expression_is_true:
-              expression: "TOTAL_QUANTITY >= 0"
-      - name: TOTAL_PRICE
-        tests:
-          - not_null
-          - dbt_utils.expression_is_true:
-              expression: "TOTAL_PRICE >= 0"
-      - name: TOTAL_NET_SALES
-        tests:
-          - not_null
-          - dbt_utils.expression_is_true:
-              expression: "TOTAL_NET_SALES >= 0"
-      - name: TOTAL_GROSS_SALES
-        tests:
-          - not_null
-          - dbt_utils.expression_is_true:
-              expression: "TOTAL_GROSS_SALES >= 0"

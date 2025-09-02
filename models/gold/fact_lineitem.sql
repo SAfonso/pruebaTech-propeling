@@ -1,6 +1,6 @@
 {{ config(
     materialized='table',
-    cluster_by='L_SHIPDATE'
+    cluster_by='SHIP_DATE_KEY'
 ) }}
 
 with base as (
@@ -52,12 +52,12 @@ select
     d4.DATE_KEY as RECEIPT_DATE_KEY,
 
     -- Hechos
-    b.L_QUANTITY,
-    b.L_EXTENDEDPRICE,
-    b.L_DISCOUNT,
-    b.L_TAX,
-    b.L_RETURNFLAG,
-    b.L_LINESTATUS
+    b.L_QUANTITY as QUANTITY,
+    b.L_EXTENDEDPRICE as EXTENDED_PRICE,
+    b.L_DISCOUNT as DISCOUNT,
+    b.L_TAX as TAX,
+    b.L_RETURNFLAG as RETURN_FLAG,
+    b.L_LINESTATUS as LINESTATUS
 
 from base b
 left join {{ ref('dim_dates') }} d1 on b.O_ORDERDATE   = d1.DATE_VALUE

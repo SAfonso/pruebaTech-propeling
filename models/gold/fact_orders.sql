@@ -1,6 +1,6 @@
 {{ config(
     materialized='table',
-    cluster_by='O_ORDERDATE'
+    cluster_by='ORDER_DATE'
 ) }}
 
 select
