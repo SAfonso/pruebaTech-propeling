@@ -152,7 +152,7 @@ def main():
     run_cmd("dbt test --target silver --select silver")
 
     # 4) Gold
-    run_cmd("dbt run  --target gold --select +gold --full-refresh")
+    run_cmd("dbt run  --target gold --select path:models/gold")
     #Run_cmd("dbt test --target gold --select gold")
 
     # 5) Freshness de fuentes RAW

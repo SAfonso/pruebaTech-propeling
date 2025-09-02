@@ -32,8 +32,10 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   tpch_medallion:
     silver:
+      +schema: SILVER
       +materialized: incremental
     gold:
+      +schema: GOLD
       +materialized: table
     +persist_docs:
       relation: true
