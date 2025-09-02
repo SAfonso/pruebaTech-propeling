@@ -19,11 +19,10 @@ with base as (
         l.L_RETURNFLAG,
         l.L_LINESTATUS,
 
-        -- Fechas de negocio
-        l.L_SHIPDATE,
-        l.L_COMMITDATE,
-        l.L_RECEIPTDATE,
-        o.O_ORDERDATE,
+        to_number(to_char(o.O_ORDERDATE,  'YYYYMMDD')) as ORDER_DATE_KEY,
+        to_number(to_char(l.L_SHIPDATE,   'YYYYMMDD')) as SHIP_DATE_KEY,
+        to_number(to_char(l.L_COMMITDATE, 'YYYYMMDD')) as COMMIT_DATE_KEY,
+        to_number(to_char(l.L_RECEIPTDATE,'YYYYMMDD')) as RECEIPT_DATE_KEY,
 
         -- Enlaces a dimensiones
         c.C_CUSTKEY,
@@ -45,11 +44,17 @@ select
     b.L_ORDERKEY as ORDER_KEY,
     b.L_LINENUMBER,
 
-    -- Claves de fecha (usar DATE_KEY de dim_dates)
-    d1.DATE_KEY as ORDER_DATE_KEY,
-    d2.DATE_KEY as SHIP_DATE_KEY,
-    d3.DATE_KEY as COMMIT_DATE_KEY,
-    d4.DATE_KEY as RECEIPT_DATE_KEY,
+    -- Claves de fecha (NUMÉRICAS)
+    b.ORDER_DATE_KEY,
+    b.SHIP_DATE_KEY,
+    b.COMMIT_DATE_KEY,
+    b.RECEIPT_DATE_KEY,
+
+    -- Fechas legibles
+    d1.DATE_VALUE as ORDER_DATE,
+    d2.DATE_VALUE as SHIP_DATE,
+    d3.DATE_VALUE as COMMIT_DATE,
+    d4.DATE_VALUE as RECEIPT_DATE,
 
     -- Hechos
     b.L_QUANTITY as QUANTITY,
@@ -60,7 +65,7 @@ select
     b.L_LINESTATUS as LINESTATUS
 
 from base b
-left join {{ ref('dim_dates') }} d1 on b.O_ORDERDATE   = d1.DATE_VALUE
-left join {{ ref('dim_dates') }}  d2 on b.L_SHIPDATE    = d2.DATE_VALUE
-left join {{ ref('dim_dates') }}  d3 on b.L_COMMITDATE  = d3.DATE_VALUE
-left join {{ ref('dim_dates') }}  d4 on b.L_RECEIPTDATE = d4.DATE_VALUE
+left join {{ ref('dim_dates') }} d1 on b.ORDER_DATE_KEY   = d1.DATE_KEY
+left join {{ ref('dim_dates') }} d2 on b.SHIP_DATE_KEY    = d2.DATE_KEY
+left join {{ ref('dim_dates') }} d3 on b.COMMIT_DATE_KEY  = d3.DATE_KEY
+left join {{ ref('dim_dates') }} d4 on b.RECEIPT_DATE_KEY = d4.DATE_KEY
