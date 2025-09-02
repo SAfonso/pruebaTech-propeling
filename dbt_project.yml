@@ -31,6 +31,13 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   tpch_medallion:
+    silver:
+      +materialized: incremental
+    gold:
+      +materialized: table
+    +persist_docs:
+      relation: true
+      columns: true
     # Config indicated by + and applies to all files under models/example/
     example:
       +materialized: view
