@@ -1,5 +1,7 @@
 {{ config(
-    materialized='table'
+    materialized='table',
+    cluster_by='S_NATIONKEY'
+
 ) }}
 
 

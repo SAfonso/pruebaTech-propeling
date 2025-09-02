@@ -1,5 +1,6 @@
 {{ config(
-    materialized='table'
+    materialized='table',
+    cluster_by='P_SIZE'
 ) }}
 
 

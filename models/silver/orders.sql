@@ -2,7 +2,8 @@
     materialized='incremental',
     incremental_strategy='merge',
     unique_key='O_ORDERKEY',
-    on_schema_change='sync_all_columns'
+    on_schema_change='sync_all_columns',
+    cluster_by='O_ORDERDATE'
 ) }}
 
 with base as (

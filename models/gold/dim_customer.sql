@@ -1,5 +1,6 @@
 {{ config(
-    materialized='table'
+    materialized='table',
+    cluster_by='CUSTOMER_ID'
 ) }}
 
 select

@@ -2,7 +2,9 @@
     materialized='incremental',
     incremental_strategy='merge',
     unique_key='S_SUPPKEY',
-    on_schema_change='sync_all_columns'
+    on_schema_change='sync_all_columns',
+    cluster_by='S_NATIONKEY'
+
 ) }}
 
 with base as (

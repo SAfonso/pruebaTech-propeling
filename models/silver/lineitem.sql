@@ -2,7 +2,8 @@
     materialized='incremental',
     incremental_strategy='merge',
     unique_key='ORDERLINE_ID',
-    on_schema_change='sync_all_columns'
+    on_schema_change='sync_all_columns',
+    cluster_by='L_SHIPDATE'
 ) }}
 
 with base as (

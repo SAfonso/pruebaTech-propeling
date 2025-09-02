@@ -2,7 +2,8 @@
     materialized='incremental',
     incremental_strategy='merge',
     unique_key='P_PARTKEY',
-    on_schema_change='sync_all_columns'
+    on_schema_change='sync_all_columns',
+    cluster_by='P_SIZE'
 ) }}
 
 with base as (
