@@ -122,7 +122,7 @@ def main():
 
     # 4) Gold
     run_cmd("dbt run  --target gold --select path:models/gold")
-    #Run_cmd("dbt test --target gold --select gold")
+    run_cmd("dbt test --target gold --select gold")
 
     # 5) Docs
     run_cmd("dbt docs generate --target gold")

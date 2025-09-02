@@ -13,19 +13,25 @@ with base as (
         L_PARTKEY,
         L_SUPPKEY,
         L_LINENUMBER,
-        L_QUANTITY,
-        L_EXTENDEDPRICE,
-        L_DISCOUNT,
-        L_TAX,
+
+        try_cast(L_QUANTITY as number(12,2)) as L_QUANTITY,
+        try_cast(L_EXTENDEDPRICE as number(12,2)) as L_EXTENDEDPRICE,
+        try_cast(L_DISCOUNT as number(12,2)) as L_DISCOUNT,
+        try_cast(L_TAX as number(12,2)) as L_TAX,
+
         upper(trim(L_RETURNFLAG)) as L_RETURNFLAG,
         upper(trim(L_LINESTATUS)) as L_LINESTATUS,
+
         L_SHIPDATE,
         L_COMMITDATE,
         L_RECEIPTDATE,
+
         trim(L_SHIPINSTRUCT) as L_SHIPINSTRUCT,
         trim(L_SHIPMODE) as L_SHIPMODE,
         trim(L_COMMENT) as L_COMMENT,
+
         LOAD_TS
+        
     from {{ source('RAW','LINEITEM') }}
     where L_ORDERKEY is not null
       and L_LINENUMBER is not null
